@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parkinson's Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Parkinson's Disease Detection</h1>
+        
+        <div class="back-link">
+            <a href="{{ url_for('index') }}">&larr; Back to Home</a>
+        </div>
+        
+        <div class="info-section">
+            <p>This tool analyzes voice measurements to detect potential Parkinson's disease indicators. Enter the required vocal measurements below.</p>
+        </div>
+        
+        <div class="upload-section">
+            <form method="post">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="MDVP:Fo(Hz)">MDVP:Fo(Hz)</label>
+                        <input type="number" step="any" id="MDVP:Fo(Hz)" name="MDVP:Fo(Hz)" placeholder="e.g., 119.992" required value="{{ input_values.get('MDVP:Fo(Hz)', '') }}">
+                        <span class="input-help">Average vocal fundamental frequency</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:Fhi(Hz)">MDVP:Fhi(Hz)</label>
+                        <input type="number" step="any" id="MDVP:Fhi(Hz)" name="MDVP:Fhi(Hz)" placeholder="e.g., 157.302" required value="{{ input_values.get('MDVP:Fhi(Hz)', '') }}">
+                        <span class="input-help">Maximum vocal fundamental frequency</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:Flo(Hz)">MDVP:Flo(Hz)</label>
+                        <input type="number" step="any" id="MDVP:Flo(Hz)" name="MDVP:Flo(Hz)" placeholder="e.g., 74.997" required value="{{ input_values.get('MDVP:Flo(Hz)', '') }}">
+                        <span class="input-help">Minimum vocal fundamental frequency</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:Jitter(%)">MDVP:Jitter(%)</label>
+                        <input type="number" step="any" id="MDVP:Jitter(%)" name="MDVP:Jitter(%)" placeholder="e.g., 0.00784" required value="{{ input_values.get('MDVP:Jitter(%)', '') }}">
+                        <span class="input-help">Frequency variation percentage</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:Jitter(Abs)">MDVP:Jitter(Abs)</label>
+                        <input type="number" step="any" id="MDVP:Jitter(Abs)" name="MDVP:Jitter(Abs)" placeholder="e.g., 0.00007" required value="{{ input_values.get('MDVP:Jitter(Abs)', '') }}">
+                        <span class="input-help">Absolute frequency variation</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:RAP">MDVP:RAP</label>
+                        <input type="number" step="any" id="MDVP:RAP" name="MDVP:RAP" placeholder="e.g., 0.00370" required value="{{ input_values.get('MDVP:RAP', '') }}">
+                        <span class="input-help">Relative amplitude perturbation</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:PPQ">MDVP:PPQ</label>
+                        <input type="number" step="any" id="MDVP:PPQ" name="MDVP:PPQ" placeholder="e.g., 0.00418" required value="{{ input_values.get('MDVP:PPQ', '') }}">
+                        <span class="input-help">Pitch period perturbation quotient</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Jitter:DDP">Jitter:DDP</label>
+                        <input type="number" step="any" id="Jitter:DDP" name="Jitter:DDP" placeholder="e.g., 0.01109" required value="{{ input_values.get('Jitter:DDP', '') }}">
+                        <span class="input-help">Average absolute difference of differences</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:Shimmer">MDVP:Shimmer</label>
+                        <input type="number" step="any" id="MDVP:Shimmer" name="MDVP:Shimmer" placeholder="e.g., 0.04374" required value="{{ input_values.get('MDVP:Shimmer', '') }}">
+                        <span class="input-help">Local shimmer</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:Shimmer(dB)">MDVP:Shimmer(dB)</label>
+                        <input type="number" step="any" id="MDVP:Shimmer(dB)" name="MDVP:Shimmer(dB)" placeholder="e.g., 0.426" required value="{{ input_values.get('MDVP:Shimmer(dB)', '') }}">
+                        <span class="input-help">Shimmer in decibels</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Shimmer:APQ3">Shimmer:APQ3</label>
+                        <input type="number" step="any" id="Shimmer:APQ3" name="Shimmer:APQ3" placeholder="e.g., 0.02182" required value="{{ input_values.get('Shimmer:APQ3', '') }}">
+                        <span class="input-help">Three-point amplitude perturbation quotient</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Shimmer:APQ5">Shimmer:APQ5</label>
+                        <input type="number" step="any" id="Shimmer:APQ5" name="Shimmer:APQ5" placeholder="e.g., 0.02556" required value="{{ input_values.get('Shimmer:APQ5', '') }}">
+                        <span class="input-help">Five-point amplitude perturbation quotient</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="MDVP:APQ">MDVP:APQ</label>
+                        <input type="number" step="any" id="MDVP:APQ" name="MDVP:APQ" placeholder="e.g., 0.03134" required value="{{ input_values.get('MDVP:APQ', '') }}">
+                        <span class="input-help">Amplitude perturbation quotient</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Shimmer:DDA">Shimmer:DDA</label>
+                        <input type="number" step="any" id="Shimmer:DDA" name="Shimmer:DDA" placeholder="e.g., 0.06545" required value="{{ input_values.get('Shimmer:DDA', '') }}">
+                        <span class="input-help">Average absolute differences between consecutive differences</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="NHR">NHR</label>
+                        <input type="number" step="any" id="NHR" name="NHR" placeholder="e.g., 0.02015" required value="{{ input_values.get('NHR', '') }}">
+                        <span class="input-help">Noise-to-harmonics ratio</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="HNR">HNR</label>
+                        <input type="number" step="any" id="HNR" name="HNR" placeholder="e.g., 21.64" required value="{{ input_values.get('HNR', '') }}">
+                        <span class="input-help">Harmonics-to-noise ratio</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="RPDE">RPDE</label>
+                        <input type="number" step="any" id="RPDE" name="RPDE" placeholder="e.g., 0.414783" required value="{{ input_values.get('RPDE', '') }}">
+                        <span class="input-help">Recurrence period density entropy</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="DFA">DFA</label>
+                        <input type="number" step="any" id="DFA" name="DFA" placeholder="e.g., 0.815285" required value="{{ input_values.get('DFA', '') }}">
+                        <span class="input-help">Detrended fluctuation analysis</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="spread1">spread1</label>
+                        <input type="number" step="any" id="spread1" name="spread1" placeholder="e.g., -4.813031" required value="{{ input_values.get('spread1', '') }}">
+                        <span class="input-help">Nonlinear measure of fundamental frequency variation</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="spread2">spread2</label>
+                        <input type="number" step="any" id="spread2" name="spread2" placeholder="e.g., 0.266482" required value="{{ input_values.get('spread2', '') }}">
+                        <span class="input-help">Nonlinear measure of fundamental frequency variation</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="D2">D2</label>
+                        <input type="number" step="any" id="D2" name="D2" placeholder="e.g., 2.301442" required value="{{ input_values.get('D2', '') }}">
+                        <span class="input-help">Correlation dimension</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="PPE">PPE</label>
+                        <input type="number" step="any" id="PPE" name="PPE" placeholder="e.g., 0.284654" required value="{{ input_values.get('PPE', '') }}">
+                        <span class="input-help">Pitch period entropy</span>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn">Analyze</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </form>
+        </div>
+        
+        {% if result %}
+        <div class="result-section">
+            <h2>Analysis Result</h2>
+            <div class="result-box parkinsons-result">
+                <div class="result-text">
+                    <h3>Prediction: {{ result }}</h3>
+                    
+                    {% if result == "Positive" %}
+                        <p class="result-detail alert">The analysis indicates potential signs of Parkinson's disease based on the vocal measurements provided.</p>
+                    {% else %}
+                        <p class="result-detail healthy">The analysis does not indicate signs of Parkinson's disease based on the vocal measurements provided.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="disclaimer">
+                <p><strong>Disclaimer:</strong> This is a research tool and not intended to replace professional medical diagnosis. Always consult with a healthcare professional. Parkinson's disease diagnosis requires comprehensive clinical evaluation beyond just vocal measurements.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Heart Disease Detection</h1>
+
+        <div class="back-link">
+            <a href="{{ url_for('index') }}">&larr; Back to Home</a>
+        </div>
+
+        <div class="info-section">
+            <p>This tool analyzes clinical data to detect potential heart disease risk. Enter your health details below.</p>
+        </div>
+
+        <div class="upload-section">
+            <form method="post">
+                <div class="form-grid">
+                    <!-- Numeric fields -->
+                    {% for label, name, type, placeholder, step in [
+                        ('Age', 'age', 'number', 'e.g., 52', '1'),
+                        ('Resting Blood Pressure (trestbps)', 'trestbps', 'number', 'e.g., 130', '1'),
+                        ('Cholesterol (chol)', 'chol', 'number', 'e.g., 245', '1'),
+                        ('Max Heart Rate (thalach)', 'thalach', 'number', 'e.g., 150', '1'),
+                        ('ST Depression (oldpeak)', 'oldpeak', 'number', 'e.g., 1.4', '0.1'),
+                        ('Number of Major Vessels (ca)', 'ca', 'number', 'e.g., 0', '1')
+                    ] %}
+                    <div class="form-group">
+                        <label for="{{ name }}">{{ label }}</label>
+                        <input type="{{ type }}" step="{{ step }}" id="{{ name }}" name="{{ name }}" placeholder="{{ placeholder }}" required value="{{ input_values.get(name, '') }}">
+                    </div>
+                    {% endfor %}
+
+                    <!-- Categorical fields -->
+                    {% for label, name, options in [
+                        ('Sex', 'sex', ['male', 'female']),
+                        ('Chest Pain Type (cp)', 'cp', ['typical angina', 'atypical angina', 'non-anginal pain', 'asymptomatic']),
+                        ('Fasting Blood Sugar > 120 mg/dl (fbs)', 'fbs', ['true', 'false']),
+                        ('Resting ECG (restecg)', 'restecg', ['normal', 'ST-T wave abnormality', 'left ventricular hypertrophy']),
+                        ('Exercise Induced Angina (exang)', 'exang', ['yes', 'no']),
+                        ('Slope of ST Segment (slope)', 'slope', ['upsloping', 'flat', 'downsloping']),
+                        ('Thalassemia (thal)', 'thal', ['normal', 'fixed defect', 'reversible defect'])
+                    ] %}
+                    <div class="form-group">
+                        <label for="{{ name }}">{{ label }}</label>
+                        <select id="{{ name }}" name="{{ name }}" required>
+                            <option value="" disabled selected>Select</option>
+                            {% for option in options %}
+                                <option value="{{ option }}" {% if input_values.get(name) == option %}selected{% endif %}>{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Analyze</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </form>
+        </div>
+
+        {% if result %}
+        <div class="result-section">
+            <h2>Analysis Result</h2>
+            <div class="result-box heart-result">
+                <div class="result-text">
+                    <h3>Prediction: {{ result }}</h3>
+
+                    {% if "likely to have" in result %}
+                        <p class="result-detail alert">The analysis indicates a risk of heart disease based on the provided data.</p>
+                        <div class="recommendations">
+                            <h4>Recommendations:</h4>
+                            <ul>
+                                <li>Consult a cardiologist for detailed evaluation.</li>
+                                <li>Reduce stress and maintain a heart-healthy diet.</li>
+                                <li>Engage in regular physical activity.</li>
+                                <li>Monitor blood pressure and cholesterol regularly.</li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p class="result-detail healthy">No significant risk of heart disease was detected from the current data.</p>
+                        <div class="recommendations">
+                            <h4>Recommendations:</h4>
+                            <ul>
+                                <li>Maintain your healthy lifestyle.</li>
+                                <li>Continue regular checkups.</li>
+                                <li>Avoid smoking and processed foods.</li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="disclaimer">
+                <p><strong>Disclaimer:</strong> This tool is for educational purposes and not a substitute for professional medical advice. Please consult your doctor for official diagnosis and treatment.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

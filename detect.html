@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ display_name }} Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ display_name }} Detection</h1>
+        
+        <div class="back-link">
+            <a href="{{ url_for('index') }}">&larr; Back to Home</a>
+        </div>
+        
+        <div class="upload-section">
+            <form method="post" enctype="multipart/form-data">
+                <div class="file-input">
+                    <label for="file-upload">Upload Image</label>
+                    <input id="file-upload" type="file" name="file" accept="image/*">
+                    <button type="submit" class="btn">Submit</button>
+                </div>
+                
+            </form>
+        </div>
+        
+        {% if error %}
+        <div class="error">
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+        
+        {% if result %}
+        <div class="result-section">
+            <h2>Analysis Result</h2>
+            <div class="result-box">
+                <div class="result-image">
+                    <img src="{{ url_for('static', filename=image_path) }}" alt="Uploaded Image">
+                </div>
+                <div class="result-text">
+                    <h3>Prediction: {{ result }}</h3>
+                    
+                    {% if disease == 'brain_tumor' %}
+                        {% if result == 'notumor' %}
+                            <p class="result-detail healthy">No tumor detected.</p>
+                        {% else %}
+                            <p class="result-detail alert">Tumor type: {{ result }}</p>
+                        {% endif %}
+                    {% elif disease == 'skin_cancer' %}
+                        {% if result == 'Benign' %}
+                            <p class="result-detail healthy">The lesion appears to be benign.</p>
+                        {% else %}
+                            <p class="result-detail alert">The lesion appears to be malignant.</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="disclaimer">
+                <p><strong>Disclaimer:</strong> This is a research tool and not intended to replace professional medical diagnosis. Always consult with a healthcare professional.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

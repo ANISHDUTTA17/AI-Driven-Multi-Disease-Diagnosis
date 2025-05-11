@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi-Disease Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Multi-Disease Detection System</h1>
+        <p>Select a disease to detect:</p>
+        
+        <div class="disease-grid">
+            <div class="disease-card">
+                <h2>Brain Tumor</h2>
+                <p>Upload brain MRI images to detect various types of brain tumors.</p>
+                <a href="{{ url_for('detect', disease='brain_tumor') }}" class="btn">Detect Brain Tumor</a>
+            </div>
+            
+            <div class="disease-card">
+                <h2>Skin Cancer</h2>
+                <p>Upload skin lesion images to classify benign vs. malignant skin cancer.</p>
+                <a href="{{ url_for('detect', disease='skin_cancer') }}" class="btn">Detect Skin Cancer</a>
+            </div>
+            
+            <div class="disease-card">
+                <h2>Parkinson's Disease</h2>
+                <p>Enter voice measurements to detect potential Parkinson's disease indicators.</p>
+                <a href="{{ url_for('parkinsons') }}" class="btn">Detect Parkinson's</a>
+            </div>
+            
+            <div class="disease-card">
+                <h2>Diabetes</h2>
+                <p>Enter clinical parameters to assess diabetes risk factors.</p>
+                <a href="{{ url_for('diabetes') }}" class="btn">Detect Diabetes</a>
+            </div>
+            
+            <div class="disease-card">
+                <h2>Heart Disease</h2>
+                <p>Enter cardiac health parameters to assess heart disease risk.</p>
+                <a href="{{ url_for('heart') }}" class="btn">Detect Heart Disease</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

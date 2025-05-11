@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diabetes Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Diabetes Detection</h1>
+        
+        <div class="back-link">
+            <a href="{{ url_for('index') }}">&larr; Back to Home</a>
+        </div>
+        
+        <div class="info-section">
+            <p>This tool analyzes clinical parameters to detect potential diabetes indicators. Enter your health measurements below.</p>
+        </div>
+        
+        <div class="upload-section">
+            <form method="post">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="Pregnancies">Pregnancies</label>
+                        <input type="number" step="1" min="0" id="Pregnancies" name="Pregnancies" placeholder="e.g., 2" required value="{{ input_values.get('Pregnancies', '') }}">
+                        <span class="input-help">Number of times pregnant</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Glucose">Glucose</label>
+                        <input type="number" step="1" min="0" id="Glucose" name="Glucose" placeholder="e.g., 120" required value="{{ input_values.get('Glucose', '') }}">
+                        <span class="input-help">Plasma glucose concentration (mg/dL)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="BloodPressure">Blood Pressure</label>
+                        <input type="number" step="1" min="0" id="BloodPressure" name="BloodPressure" placeholder="e.g., 70" required value="{{ input_values.get('BloodPressure', '') }}">
+                        <span class="input-help">Diastolic blood pressure (mm Hg)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="SkinThickness">Skin Thickness</label>
+                        <input type="number" step="1" min="0" id="SkinThickness" name="SkinThickness" placeholder="e.g., 23" required value="{{ input_values.get('SkinThickness', '') }}">
+                        <span class="input-help">Triceps skin fold thickness (mm)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Insulin">Insulin</label>
+                        <input type="number" step="1" min="0" id="Insulin" name="Insulin" placeholder="e.g., 80" required value="{{ input_values.get('Insulin', '') }}">
+                        <span class="input-help">2-Hour serum insulin (mu U/ml)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="BMI">BMI</label>
+                        <input type="number" step="0.1" min="0" id="BMI" name="BMI" placeholder="e.g., 25.3" required value="{{ input_values.get('BMI', '') }}">
+                        <span class="input-help">Body mass index (weight in kg/(height in m)²)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="DiabetesPedigreeFunction">Diabetes Pedigree Function</label>
+                        <input type="number" step="0.001" min="0" id="DiabetesPedigreeFunction" name="DiabetesPedigreeFunction" placeholder="e.g., 0.627" required value="{{ input_values.get('DiabetesPedigreeFunction', '') }}">
+                        <span class="input-help">Diabetes pedigree function (genetic score)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Age">Age</label>
+                        <input type="number" step="1" min="0" id="Age" name="Age" placeholder="e.g., 35" required value="{{ input_values.get('Age', '') }}">
+                        <span class="input-help">Age in years</span>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn">Analyze</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </form>
+        </div>
+        
+        {% if result %}
+        <div class="result-section">
+            <h2>Analysis Result</h2>
+            <div class="result-box diabetes-result">
+                <div class="result-text">
+                    <h3>Prediction: {{ result }}</h3>
+                    
+                    {% if result == "Positive" %}
+                        <p class="result-detail alert">The analysis indicates an increased risk of diabetes based on the provided measurements.</p>
+                        <div class="recommendations">
+                            <h4>Recommendations:</h4>
+                            <ul>
+                                <li>Consult with a healthcare provider for a comprehensive evaluation.</li>
+                                <li>Consider monitoring blood glucose levels regularly.</li>
+                                <li>Maintain a healthy diet and regular exercise routine.</li>
+                                <li>Reduce sugar and refined carbohydrate intake.</li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <p class="result-detail healthy">The analysis does not indicate an increased risk of diabetes based on the provided measurements.</p>
+                        <div class="recommendations">
+                            <h4>Recommendations:</h4>
+                            <ul>
+                                <li>Continue maintaining a healthy lifestyle.</li>
+                                <li>Consider regular check-ups with your healthcare provider.</li>
+                                <li>Stay active and maintain a balanced diet.</li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="disclaimer">
+                <p><strong>Disclaimer:</strong> This is a research tool and not intended to replace professional medical diagnosis. Always consult with a healthcare professional for accurate diagnosis and treatment.</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
